@@ -150,17 +150,7 @@ class PCA(base.BaseEstimator, base.TransformerMixin):
         return [eig / self.total_inertia_ for eig in self.explained_variance_]
 
 
-if __name__ =='__main__':
-    X = pd.DataFrame(np.array([[-1, -1], [-2, -1], [-3, -2], [1, 1], [2, 1], [3, 2]]),columns=list('AB'))
-    pca = PCA(n_components=2)
-    pca.fit(X)
-    print(pca.explained_variance_)
-    print(pca.explained_variance_ratio_)
-    print(pca.column_correlation(X))
-    X_t=pca.transform(X)
-    print(X_t)
-    X_t= pca.fit_transform(X)
-    print(X_t)
+
     
     
 
