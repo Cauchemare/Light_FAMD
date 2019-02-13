@@ -59,18 +59,18 @@ Notice that `Light_FAMD` does't support the sparse input,see [Truncated_FAMD](ht
 
 ###	Principal-Component-Analysis: PCA
 
-pca=PCA(rescale_with_mean=True, rescale_with_std=True, n_components=2, n_iter=3,
+**PCA**(rescale_with_mean=True, rescale_with_std=True, n_components=2, n_iter=3,
                  copy=True, check_input=True, random_state=None, engine='auto'):
 	
 **Args:**
--`rescale_with_mean` (bool): Whether to substract each column's mean or not.
--`rescale_with_std` (bool): Whether to divide each column by it's standard deviation or not.
--`n_components` (int): The number of principal components to compute.
--`n_iter` (int): The number of iterations used for computing the SVD.
--`copy` (bool): Whether to perform the computations inplace or not.
--`check_input` (bool): Whether to check the consistency of the inputs or not.
--`engine`(string):"auto":randomized_svd,"fbpca":Facebook's randomized SVD implementation
--`random_state`(int, RandomState instance or None, optional (default=None):The seed of the -pseudo random number generator to use when shuffling the data. If int, random_state is the seed used by the random number generator; If RandomState instance, random_state is the random number generator; If None, the random number generator is the RandomState instance used by np.random.
+- `rescale_with_mean` (bool): Whether to substract each column's mean or not.
+- `rescale_with_std` (bool): Whether to divide each column by it's standard deviation or not.
+- `n_components` (int): The number of principal components to compute.
+- `n_iter` (int): The number of iterations used for computing the SVD.
+- `copy` (bool): Whether to perform the computations inplace or not.
+- `check_input` (bool): Whether to check the consistency of the inputs or not.
+- `engine`(string):"auto":randomized_svd,"fbpca":Facebook's randomized SVD implementation
+- `random_state`(int, RandomState instance or None, optional (default=None):The seed of the -pseudo random number generator to use when shuffling the data. If int, random_state is the seed used by the random number generator; If RandomState instance, random_state is the random number generator; If None, the random number generator is the RandomState instance used by np.random.
 Return ndarray (M,k),M:Number of samples,K:Number of components.
 
 **Examples:**
@@ -112,16 +112,15 @@ B -0.995485 NaN
 ```
 ###	Correspondence-Analysis: CA
 
-
-ca=CA(n_components=2, n_iter=10, copy=True, check_input=True, random_state=None,
+**CA**(n_components=2, n_iter=10, copy=True, check_input=True, random_state=None,
                  engine='auto'):
 	
 **Args:**
--`n_components` (int): The number of principal components to compute.
--`copy` (bool): Whether to perform the computations inplace or not.
--`check_input` (bool): Whether to check the consistency of the inputs or not.
--`engine`(string):"auto":randomized_svd,"fbpca":Facebook's randomized SVD implementation
--`random_state`(int, RandomState instance or None, optional (default=None):The seed of the -pseudo random number generator to use when shuffling the data. If int, random_state is the seed used by the random number generator; If RandomState instance, random_state is the random number generator; If None, the random number generator is the RandomState instance used by np.random.
+- `n_components` (int): The number of principal components to compute.
+- `copy` (bool): Whether to perform the computations inplace or not.
+- `check_input` (bool): Whether to check the consistency of the inputs or not.
+- `engine`(string):"auto":randomized_svd,"fbpca":Facebook's randomized SVD implementation
+- `random_state`(int, RandomState instance or None, optional (default=None):The seed of the -pseudo random number generator to use when shuffling the data. If int, random_state is the seed used by the random number generator; If RandomState instance, random_state is the random number generator; If None, the random number generator is the RandomState instance used by np.random.
 
 Return ndarray (M,k),M:Number of samples,K:Number of components.
 
