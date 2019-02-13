@@ -101,7 +101,7 @@ class MFA(pca.PCA):
             if self.partial_factor_analysis_[name].__class__.__name__ == 'MCA':
                 X_partial = self.partial_factor_analysis_[name].one_hot_.transform(X_partial)
 
-            X_partials.append(X_partial / self.partial_factor_analysis_[name].s_[0])
+            X_partials.append(X_partial / self.partial_factor_analysis_[name].singular_values_[0])
 
         X_global = pd.concat(X_partials, axis='columns')
         X_global.index = X.index
@@ -109,7 +109,7 @@ class MFA(pca.PCA):
 
     def transform(self, X):
         """Returns the row principal coordinates of a dataset."""
-        utils.validation.check_is_fitted(self, 's_')
+        utils.validation.check_is_fitted(self, 'singular_values_')
         if self.check_input:
         	utils.check_array(X, dtype=[str, np.number])
         X = self._prepare_input(X)

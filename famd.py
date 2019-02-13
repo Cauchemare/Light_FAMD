@@ -66,3 +66,12 @@ class FAMD(mfa.MFA):
                              "you only have numerical data; you should consider using PCA")
         return super().fit_transform(X)
         
+
+  
+
+
+
+
+
+
+

@@ -46,13 +46,14 @@ class CA(base.BaseEstimator, base.TransformerMixin):
         S = sparse.diags(self.r ** -0.5) @ (X - np.outer(self.r, self.c)) @ sparse.diags(self.c ** -0.5)
 
         # Compute SVD on the standardised residuals
-        self.U_, self.s_, self.V_ = svd.compute_svd(
+        self.U_, self.singular_values_, self.components_ = svd.compute_svd(
             X=S,
             n_components=self.n_components,
             n_iter=self.n_iter,
             random_state=self.random_state,
             engine=self.engine
         )
+
 
         # Compute total inertia
         if not hasattr(self,'total_inertia_'):
@@ -67,22 +68,22 @@ class CA(base.BaseEstimator, base.TransformerMixin):
         dataset as you did when calling the `fit` method. You might however also want to included
         supplementary data.
         """
-        utils.validation.check_is_fitted(self, 's_')
+        utils.validation.check_is_fitted(self, 'singular_values_')
         if self.check_input:
             utils.check_array(X)
         return self._transform(X)
 
     @property
-    def eigenvalues_(self):
+    def explained_variance_(self):
         """The eigenvalues associated with each principal component."""
-        utils.validation.check_is_fitted(self, 's_')
-        return np.square(self.s_).tolist()
+        utils.validation.check_is_fitted(self, 'singular_values_')
+        return self.singular_values_ **2 
 
     @property
-    def explained_inertia_(self):
+    def explained_variance_ratio_(self):
         """The percentage of explained inertia per principal component."""
         utils.validation.check_is_fitted(self, 'total_inertia_')
-        return [eig / self.total_inertia_ for eig in self.eigenvalues_]
+        return [eig / self.total_inertia_ for eig in self.explained_variance_]
 
     def _transform(self, X):
         """The row principal coordinates."""
@@ -100,7 +101,7 @@ class CA(base.BaseEstimator, base.TransformerMixin):
         else:
             X = X / X.sum(axis=1)
 
-        return X @ sparse.diags(self.c_ ** -0.5) @ self.V_.T,
+        return X @ sparse.diags(self.c ** -0.5) @ self.components_.T
 
 
 

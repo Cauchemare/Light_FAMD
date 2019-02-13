@@ -25,9 +25,6 @@ class MCA(ca.CA):
         # Apply CA to the indicator matrix
         super().fit(self.one_hot_.transform(X))
 
-        # Compute the total inertia
-
-
         return self
 
     def _transform(self, X):
@@ -37,9 +34,8 @@ class MCA(ca.CA):
 
     def transform(self, X):
         """Computes the row principal coordinates of a dataset."""
-        utils.validation.check_is_fitted(self, 's_')
+        utils.validation.check_is_fitted(self, 'singular_values_')
         if self.check_input:
             utils.check_array(X, dtype=[str, np.number])
         return self._transform(X)
 
-    

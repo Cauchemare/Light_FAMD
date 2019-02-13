@@ -6,10 +6,12 @@ from sklearn import base
 from sklearn import preprocessing
 from sklearn import utils
 
-
 from . import util
 from . import svd
 
+from sklearn.exceptions import DataConversionWarning
+import warnings
+warnings.filterwarnings('ignore',category=DataConversionWarning)
 
 class PCA(base.BaseEstimator, base.TransformerMixin):
 
@@ -58,7 +60,7 @@ class PCA(base.BaseEstimator, base.TransformerMixin):
             X = self.scaler_.transform(X)
 
         # Compute SVD
-        self.U_, self.s_, self.V_ = svd.compute_svd(
+        self.U_, self.singular_values_, self.components_ = svd.compute_svd(
             X=X,
             n_components=self.n_components,
             n_iter=self.n_iter,
@@ -66,7 +68,8 @@ class PCA(base.BaseEstimator, base.TransformerMixin):
             engine=self.engine
         )
 
-        # Compute total inertia
+        # Compute total intertia
+        
         self.total_inertia_ = np.einsum('ij,ji->',X,X.T)
 
         return self
@@ -78,7 +81,7 @@ class PCA(base.BaseEstimator, base.TransformerMixin):
         dataset as you did when calling the `fit` method. You might however also want to included
         supplementary data.
         """
-        utils.validation.check_is_fitted(self, 's_')
+        utils.validation.check_is_fitted(self, 'singular_values_')
         if self.check_input:
             utils.check_array(X)
         return self._transform(X)
@@ -94,7 +97,7 @@ class PCA(base.BaseEstimator, base.TransformerMixin):
         if hasattr(self, 'scaler_'):
             X = self.scaler_.transform(X)
 
-        return  np.dot(X,self.V_.T)
+        return  np.dot(X,self.components_.T)
 
     def invert_transform(self,X):
         '''
@@ -102,13 +105,13 @@ class PCA(base.BaseEstimator, base.TransformerMixin):
         else:  X_raw =X @ components
         '''
 
-        return  np.dot(X,self.V_)		
+        return  np.dot(X,self.components_)		
 
 
 
     def fit_transform(self, X,y=None):
         self.fit(X)
-        U=self.U_*self.s_
+        U=self.U_*self.singular_values_
         return U 
                
         # Convert numpy array to pandas DataFrame
@@ -135,17 +138,33 @@ class PCA(base.BaseEstimator, base.TransformerMixin):
                 
 
     @property
-    def eigenvalues_(self):
+    def explained_variance_(self):
         """Returns the eigenvalues associated with each principal component."""
-        utils.validation.check_is_fitted(self, 's_')
-        if not hasattr(self,'eigenvalues_'):
-            self.eigenvalues_=np.square(self.s_)
-        return self.eigenvalues_
+        utils.validation.check_is_fitted(self, 'singular_values_')       
+        return self.singular_values_ **2
 
     @property
-    def explained_inertia_(self):
+    def explained_variance_ratio_ (self):
         """Returns the percentage of explained inertia per principal component."""
-        utils.validation.check_is_fitted(self, 's_')
-        return [eig / self.total_inertia_ for eig in self.eigenvalues_]
+        utils.validation.check_is_fitted(self, 'singular_values_')
+        return [eig / self.total_inertia_ for eig in self.explained_variance_]
 
-   
+
+if __name__ =='__main__':
+    X = pd.DataFrame(np.array([[-1, -1], [-2, -1], [-3, -2], [1, 1], [2, 1], [3, 2]]),columns=list('AB'))
+    pca = PCA(n_components=2)
+    pca.fit(X)
+    print(pca.explained_variance_)
+    print(pca.explained_variance_ratio_)
+    print(pca.column_correlation(X))
+    X_t=pca.transform(X)
+    print(X_t)
+    X_t= pca.fit_transform(X)
+    print(X_t)
+    
+    
+
+
+
+
+  
