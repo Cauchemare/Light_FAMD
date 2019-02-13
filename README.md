@@ -4,21 +4,21 @@
 
 ## Table of contents
 
-- [Usage](#usage)
-  - [Guidelines](#guidelines)
+- [Usage](##Usage)
+  - [Guidelines](###Guidelines)
   - [Principal component analysis (PCA)](#principal-component-analysis-pca)
   - [Correspondence analysis (CA)](#correspondence-analysis-ca)
   - [Multiple correspondence analysis (MCA)](#multiple-correspondence-analysis-mca)
   - [Multiple factor analysis (MFA)](#multiple-factor-analysis-mfa)
   - [Factor analysis of mixed data (FAMD)](#factor-analysis-of-mixed-data-famd)
 - [Going faster](#going-faster)
-- [License](#license)
+
 
 
 
 `Light_FAMD` doesn't have any extra dependencies apart from the usual suspects (`sklearn`, `pandas`, `numpy`) which are included with Anaconda.
 
-##Usage
+## Usage
 
 ```python
 import numpy as np; np.random.set_state(42)  # This is for doctests reproducibility
@@ -33,8 +33,9 @@ Under the hood `Light_FAMD` uses a [randomised version of SVD](https://scikit-le
 The randomised version of SVD is an iterative method. Because each of light_famd's algorithms use SVD, they all possess a `n_iter` parameter which controls the number of iterations used for computing the SVD. On the one hand the higher `n_iter` is the more precise the results will be. On the other hand increasing `n_iter` increases the computation time. In general the algorithm converges very quickly so using a low `n_iter` (which is the default behaviour) is recommended.
 
 In this package,inheritance relationship as shown  below(A->B:A is superclass of B):
-PCA -> MFA -> FAMD
-CA ->MCA
+
+- PCA -> MFA -> FAMD
+- CA ->MCA
 
 You are supposed to use each method depending on your situation:
 
@@ -56,7 +57,7 @@ The next subsections give an overview of each method along with usage informatio
 Notice that `Light_FAMD` does't support the sparse input,see [Truncated_FAMD](https://github.com/Cauchemare/Truncated_FAMD) for an alternative of sparse and big data.
 
 
-###Principal-Component-Analysis-PCA
+###	Principal-Component-Analysis-PCA
 ```
 pca=PCA(rescale_with_mean=True, rescale_with_std=True, n_components=2, n_iter=3,
                  copy=True, check_input=True, random_state=None, engine='auto'):
@@ -80,14 +81,18 @@ Return ndarray (M,k),M:Number of samples,K:Number of components.
 >>>pca.fit(X)
 PCA(check_input=True, copy=True, engine='auto', n_components=2, n_iter=3,
   random_state=None, rescale_with_mean=True, rescale_with_std=True)
+
 >>>print(pca.explained_variance_)
 [11.89188304  0.10811696]
+
 >>>print(pca.explained_variance_ratio_)
 [0.9909902530309821, 0.00900974696901714]
->>>print(pca.column_correlation(X))  #You could call this method once estimator is fitted.correlation_ratio is pearson correlation between 2 columns values,where p-value >=0.05 this similarity is `Nan`.
+>>>print(pca.column_correlation(X))  #You could call this method once estimator is >fitted.correlation_ratio is pearson correlation between 2 columns values,
+>where p-value >=0.05 this similarity is `Nan`.
           0   1
 A -0.995485 NaN
 B -0.995485 NaN
+
 >>>print(pca.transform(X))
 [[ 0.82732684 -0.17267316]
  [ 1.15465367  0.15465367]
@@ -104,7 +109,7 @@ B -0.995485 NaN
  [-1.98198051  0.01801949]]
 
 ```
-###Correspondence-Analysis-CA
+###	Correspondence-Analysis-CA
 
 ```
 ca=CA(n_components=2, n_iter=10, copy=True, check_input=True, random_state=None,
@@ -127,8 +132,10 @@ Return ndarray (M,k),M:Number of samples,K:Number of components.
 >>>ca.fit(X)
 CA(check_input=True, copy=True, engine='auto', n_components=2, n_iter=2,
   random_state=None)
+
 >>> print(ca.explained_variance_)
 [0.09359686 0.04793262]
+
 >>>print(ca.explained_variance_ratio_)
 [0.5859714238674507, 0.3000864001658787]
 
@@ -147,7 +154,7 @@ CA(check_input=True, copy=True, engine='auto', n_components=2, n_iter=2,
 
 ```
 
-###Multiple-Correspondence-Analysis-MCA
+###	Multiple-Correspondence-Analysis-MCA
 MCA class inherits from  CA  class.
 
 ```
@@ -172,8 +179,10 @@ MCA(check_input=True, copy=True, engine='auto', n_components=2, n_iter=10,
 
 >>>print(mca.explained_variance_)
 [0.8286237  0.67218257]
+
 >>>print(mca.explained_variance_ratio_)
 [0.2071559239010482, 0.16804564240579373]
+
 >>>print(mca.transform(X)) 
 [[-0.75608657  0.17650888]
  [ 1.39846026 -1.17201511]
@@ -187,12 +196,12 @@ MCA(check_input=True, copy=True, engine='auto', n_components=2, n_iter=10,
  [-0.55236782  0.31008086]]
 
 ```
-###Multiple-Factor-Analysis-MFA
+###	Multiple-Factor-Analysis-MFA
 MFA class inherits from  PCA  class.
 Since FAMD class inherits from  MFA and the only thing to do for FAMD is to determine `groups` parameter compare to its  superclass `MFA`.therefore we skip this chapiter and go directly to `FAMD`.
 
 
-###Factor-Analysis-of-Mixed-Data-FAMD
+###	Factor-Analysis-of-Mixed-Data-FAMD
 The `FAMD` inherits from the `MFA` class, which entails that you have access to all it's methods and properties of `MFA` class.
 ```
 >>>import pandas as pd
