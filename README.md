@@ -57,8 +57,8 @@ The next subsections give an overview of each method along with usage informatio
 Notice that `Light_FAMD` does't support the sparse input,see [Truncated_FAMD](https://github.com/Cauchemare/Truncated_FAMD) for an alternative of sparse and big data.
 
 
-###	Principal-Component-Analysis-PCA
-```
+###	Principal-Component-Analysis: PCA
+
 pca=PCA(rescale_with_mean=True, rescale_with_std=True, n_components=2, n_iter=3,
                  copy=True, check_input=True, random_state=None, engine='auto'):
 	
@@ -74,6 +74,7 @@ pca=PCA(rescale_with_mean=True, rescale_with_std=True, n_components=2, n_iter=3,
 Return ndarray (M,k),M:Number of samples,K:Number of components.
 
 **Examples:**
+```
 >>>import numpy as np
 >>>from Light_Famd import PCA
 >>>X = pd.DataFrame(np.array([[-1, -1], [-2, -1], [-3, -2], [1, 1], [2, 1], [3, 2]]),columns=list('ABC'))
@@ -88,7 +89,7 @@ PCA(check_input=True, copy=True, engine='auto', n_components=2, n_iter=3,
 >>>print(pca.explained_variance_ratio_)
 [0.9909902530309821, 0.00900974696901714]
 >>>print(pca.column_correlation(X))  #You could call this method once estimator is >fitted.correlation_ratio is pearson correlation between 2 columns values,
->where p-value >=0.05 this similarity is `Nan`.
+where p-value >=0.05 this similarity is `Nan`.
           0   1
 A -0.995485 NaN
 B -0.995485 NaN
@@ -109,9 +110,9 @@ B -0.995485 NaN
  [-1.98198051  0.01801949]]
 
 ```
-###	Correspondence-Analysis-CA
+###	Correspondence-Analysis: CA
 
-```
+
 ca=CA(n_components=2, n_iter=10, copy=True, check_input=True, random_state=None,
                  engine='auto'):
 	
@@ -125,6 +126,7 @@ ca=CA(n_components=2, n_iter=10, copy=True, check_input=True, random_state=None,
 Return ndarray (M,k),M:Number of samples,K:Number of components.
 
 **Examples:**
+```
 >>>import numpy as np
 >>>from Light_Famd import CA
 >>>X  = pd.DataFrame(data=np.random.randint(0,100,size=(10,4)),columns=list('ABCD'))
@@ -154,7 +156,7 @@ CA(check_input=True, copy=True, engine='auto', n_components=2, n_iter=2,
 
 ```
 
-###	Multiple-Correspondence-Analysis-MCA
+###	Multiple-Correspondence-Analysis: MCA
 MCA class inherits from  CA  class.
 
 ```
@@ -196,12 +198,12 @@ MCA(check_input=True, copy=True, engine='auto', n_components=2, n_iter=10,
  [-0.55236782  0.31008086]]
 
 ```
-###	Multiple-Factor-Analysis-MFA
+###	Multiple-Factor-Analysis: MFA
 MFA class inherits from  PCA  class.
 Since FAMD class inherits from  MFA and the only thing to do for FAMD is to determine `groups` parameter compare to its  superclass `MFA`.therefore we skip this chapiter and go directly to `FAMD`.
 
 
-###	Factor-Analysis-of-Mixed-Data-FAMD
+###	Factor-Analysis-of-Mixed-Data: FAMD
 The `FAMD` inherits from the `MFA` class, which entails that you have access to all it's methods and properties of `MFA` class.
 ```
 >>>import pandas as pd
