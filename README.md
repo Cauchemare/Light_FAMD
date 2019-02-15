@@ -74,6 +74,15 @@ Notice that `Light_FAMD` does't support the sparse input,see [Truncated_FAMD](ht
 - `random_state`(int, RandomState instance or None, optional (default=None):The seed of the -pseudo random number generator to use when shuffling the data. If int, random_state is the seed used by the random number generator; If RandomState instance, random_state is the random number generator; If None, the random number generator is the RandomState instance used by np.random.
 Return ndarray (M,k),M:Number of samples,K:Number of components.
 
+**Fitted Estimator**
+**Attributes:**
+- `components_`(array), shape (n_components, n_features)
+Principal axes in feature space, representing the directions of maximum variance in the data. The components are sorted by explained_variance_.
+- `explained_variance_`(array), shape (n_components,):The amount of variance explained by each of the selected components.
+- `explained_variance_ratio_`(array), shape (n_components,):Percentage of variance explained by each of the selected components.
+- `singular_values_`(array),shape (n_components,):The singular values corresponding to each of the selected components. The singular values are equal to the 2-norms of the n_components variables in the lower-dimensional space.
+
+
 **Examples:**
 ```
 >>>import numpy as np
