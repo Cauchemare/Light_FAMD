@@ -11,7 +11,6 @@ from . import one_hot
 class MCA(ca.CA):
 
     def fit(self, X, y=None):
-
         if self.check_input:
             utils.check_array(X, dtype=[str, np.number])
             
@@ -20,15 +19,22 @@ class MCA(ca.CA):
         # One-hot encode the data
         self.one_hot_ = one_hot.OneHotEncoder().fit(X)
         
-        n_new_columns = len(self.one_hot_.column_names_)
+        _X_t=  self.one_hot_.transform(X) 
+        
+        _0_freq_serie= (_X_t == 0).sum(axis=0)/ len(_X_t)
+        
+        self._usecols=_0_freq_serie[_0_freq_serie < 0.99].index
+        print('MCA PROCESS HAVE ELIMINATE {0}  COLUMNS SINCE ITS MISSING RATE >= 99%'.format( _X_t.shape[1] - len(self._usecols) ))
+        
+        n_new_columns = len(self._usecols)
         self.total_inertia_ = (n_new_columns - n_initial_columns) / n_initial_columns
         # Apply CA to the indicator matrix
-        super().fit(self.one_hot_.transform(X))
+        super().fit(_X_t.loc[:,self._usecols])
 
         return self
 
     def _transform(self, X):
-        return super()._transform(self.one_hot_.transform(X))
+        return super()._transform(self.one_hot_.transform(X).loc[:,self._usecols])
 
 
 

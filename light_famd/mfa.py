@@ -6,11 +6,12 @@ from sklearn import utils
 from .import util
 from . import mca
 from . import pca
+from sklearn.utils.validation import check_is_fitted
 
 
 class MFA(pca.PCA):
 
-    def __init__(self, groups=None, normalize=True, n_components=2, n_iter=10,
+    def __init__(self, groups=None, normalize=True, n_components=2, n_iter=2,
                  copy=True, check_input=True, random_state=None, engine='auto'):
         super().__init__(
             rescale_with_mean=False,
@@ -48,11 +49,11 @@ class MFA(pca.PCA):
         # Run a factor analysis in each group
             if all_num:
                 fa = pca.PCA(
-                    rescale_with_mean=False,
-                    rescale_with_std=False,
+                    rescale_with_mean=self.rescale_with_mean,
+                    rescale_with_std=self.rescale_with_std,
                     n_components=self.n_components,
                     n_iter=self.n_iter,
-                    copy=True,
+                    copy=self.copy,
                     random_state=self.random_state,
                     engine=self.engine
                 )
@@ -67,8 +68,9 @@ class MFA(pca.PCA):
             self.partial_factor_analysis_[name] = fa.fit(X.loc[:, cols])
 
         # Fit the global PCA
-        super().fit(self._build_X_global(X))  
-
+        _X_global=  self._build_X_global(X)
+        self._usecols= _X_global.columns
+        super().fit(_X_global)  
         return self
 
     def _prepare_input(self, X):
@@ -99,8 +101,9 @@ class MFA(pca.PCA):
             X_partial = X.loc[:, cols]
 
             if self.partial_factor_analysis_[name].__class__.__name__ == 'MCA':
-                X_partial = self.partial_factor_analysis_[name].one_hot_.transform(X_partial)
-
+                check_is_fitted(self.partial_factor_analysis_[name],'_usecols')
+                X_partial = self.partial_factor_analysis_[name].one_hot_.transform(X_partial).loc[:, self.partial_factor_analysis_[name]._usecols].to_dense()
+            
             X_partials.append(X_partial / self.partial_factor_analysis_[name].singular_values_[0])
 
         X_global = pd.concat(X_partials, axis='columns')
@@ -164,6 +167,7 @@ class MFA(pca.PCA):
 
         # Fit the global PCA
         X_global= self._build_X_global(X)
+        self._usecols= X_global.columns
         super().fit(X_global)  
 
         return self._transform(X_global)

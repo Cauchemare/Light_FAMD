@@ -25,7 +25,7 @@ class PCA(base.BaseEstimator, base.TransformerMixin):
         check_input (bool): Whether to check the consistency of the inputs or not.
     """
 
-    def __init__(self, rescale_with_mean=True, rescale_with_std=True, n_components=2, n_iter=3,
+    def __init__(self, rescale_with_mean=True, rescale_with_std=True, n_components=2, n_iter=2,
                  copy=True, check_input=True, random_state=None, engine='auto'):
         self.n_components = n_components
         self.n_iter = n_iter
@@ -37,19 +37,22 @@ class PCA(base.BaseEstimator, base.TransformerMixin):
         self.engine = engine
 
     def fit(self, X, y=None):
-
         # Check input
         if self.check_input:
             utils.check_array(X)
 
+
         # Convert pandas DataFrame to numpy array
+        
+        
         if isinstance(X, pd.DataFrame):
+            self.columns=X.columns
             X = X.values
 
         # Copy data
+        
         if self.copy:
             X = np.copy(X)
-
         # Scale data
         if self.rescale_with_mean or self.rescale_with_std:
             self.scaler_ = preprocessing.StandardScaler(
@@ -67,7 +70,7 @@ class PCA(base.BaseEstimator, base.TransformerMixin):
             random_state=self.random_state,
             engine=self.engine
         )
-
+        
         # Compute total intertia
         
         self.total_inertia_ = np.einsum('ij,ji->',X,X.T)

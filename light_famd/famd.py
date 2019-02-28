@@ -7,7 +7,7 @@ from . import mfa
 
 class FAMD(mfa.MFA):
 
-    def __init__(self, n_components=2, n_iter=3, copy=True, check_input=True, random_state=None,
+    def __init__(self, n_components=2, n_iter=2, copy=False, check_input=True, random_state=None,
                  engine='auto'):
         super().__init__(
             groups=None,
@@ -21,6 +21,7 @@ class FAMD(mfa.MFA):
         )
 
     def fit(self, X, y=None):
+        print('famd_fit')
 
         if isinstance(X, np.ndarray):
             X = pd.DataFrame(X)

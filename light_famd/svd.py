@@ -26,11 +26,12 @@ def compute_svd(X, n_components, n_iter, random_state, engine):
             n_components=n_components,
             n_iter=n_iter,
             random_state=random_state,
-            flip_sign=True
+            flip_sign=False
         )
+            
     else:
         raise ValueError("engine has to be one of ('auto', 'fbpca', 'sklearn')")
 
-    
+    U,V= extmath.svd_flip(U,V)
 
     return U, s, V
