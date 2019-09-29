@@ -21,7 +21,6 @@ class FAMD(mfa.MFA):
         )
 
     def fit(self, X, y=None):
-        print('famd_fit')
 
         if isinstance(X, np.ndarray):
             X = pd.DataFrame(X)
