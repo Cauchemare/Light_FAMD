@@ -24,7 +24,7 @@ class MCA(ca.CA):
         _0_freq_serie= (_X_t == 0).sum(axis=0)/ len(_X_t)
         
         self._usecols=_0_freq_serie[_0_freq_serie < 0.99].index
-        print('MCA PROCESS HAVE ELIMINATE {0}  COLUMNS SINCE ITS MISSING RATE >= 99%'.format( _X_t.shape[1] - len(self._usecols) ))
+        print('MCA PROCESS ELIMINATED {0}  COLUMNS SINCE THEIR MISS_RATES >= 99%'.format( _X_t.shape[1] - len(self._usecols) ))
         
         n_new_columns = len(self._usecols)
         self.total_inertia_ = (n_new_columns - n_initial_columns) / n_initial_columns
