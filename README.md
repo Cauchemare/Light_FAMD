@@ -1,6 +1,6 @@
 
 # Light_FAMD
-
+REFERENCE TO PROJECT:[prince](https://github.com/MaxHalford/prince)
 `Light_FAMD` is a library for prcessing [factor analysis of mixed data](https://www.wikiwand.com/en/Factor_analysis). This includes a variety of methods including [principal component analysis (PCA)](https://www.wikiwand.com/en/Principal_component_analysis) and [multiply correspondence analysis (MCA)](https://www.researchgate.net/publication/239542271_Multiple_Correspondence_Analysis). The goal is to provide an efficient and light implementation for each algorithm along with a scikit-learn API.
 
 ## Table of contents
@@ -12,10 +12,6 @@
   - [Multiple correspondence analysis (MCA)](#multiple-correspondence-analysis-mca)
   - [Multiple factor analysis (MFA)](#multiple-factor-analysis-mfa)
   - [Factor analysis of mixed data (FAMD)](#factor-analysis-of-mixed-data-famd)
-- [Going faster](#going-faster)
-
-
-
 
 `Light_FAMD` doesn't have any extra dependencies apart from the usual suspects (`sklearn`, `pandas`, `numpy`) which are included with Anaconda.
 
@@ -31,8 +27,6 @@ Each base estimator(CA,PCA) provided by `Light_FAMD` extends scikit-learn's `(Tr
  
 Under the hood `Light_FAMD` uses a [randomised version of SVD](https://scikit-learn.org/dev/modules/generated/sklearn.utils.extmath.randomized_svd.html). This algorithm finds a (usually very good) approximate truncated singular value decomposition using randomization to speed up the computations. It is particularly fast on large matrices on which you wish to extract only a small number of components. In order to obtain further speed up, n_iter can be set <=2 (at the cost of loss of precision). However if you want reproducible results then you should set the `random_state` parameter.
 
-The randomised version of SVD is an iterative method. Because each of light_famd's algorithms use SVD, they all possess a `n_iter` parameter which controls the number of iterations used for computing the SVD. On the one hand the higher `n_iter` is the more precise the results will be. On the other hand increasing `n_iter` increases the computation time. In general the algorithm converges very quickly so using a low `n_iter` (which is the default behaviour) is recommended.
-
 In this package,inheritance relationship as shown  below(A->B:A is superclass of B):
 
 - PCA -> MFA -> FAMD
@@ -45,15 +39,6 @@ You are supposed to use each method depending on your situation:
 - You have more than 2 variables and they are all categorical: use multiple correspondence analysis (`MCA`)
 - You have groups of categorical **or** numerical variables: use multiple factor analysis (`MFA`)
 - You have both categorical and numerical variables: use factor analysis of mixed data (`FAMD`)
-
-The next subsections give an overview of each method along with usage information. The following papers give a good overview of the field of factor analysis if you want to go deeper:
-
-- [A Tutorial on Principal Component Analysis](https://arxiv.org/pdf/1404.1100.pdf)
-- [Theory of Correspondence Analysis](http://statmath.wu.ac.at/courses/CAandRelMeth/caipA.pdf)
-- [Finding structure with randomness: Probabilistic algorithms for constructing approximate matrix decompositions](https://arxiv.org/pdf/0909.4061.pdf)
-- [Computation of Multiple Correspondence Analysis, with code in R](https://core.ac.uk/download/pdf/6591520.pdf)
-- [Singular Value Decomposition Tutorial](https://davetang.org/file/Singular_Value_Decomposition_Tutorial.pdf)
-- [Multiple Factor Analysis](https://www.utdallas.edu/~herve/Abdi-MFA2007-pretty.pdf)
 
 Notice that `Light_FAMD` does't support the sparse input,see [Truncated_FAMD](https://github.com/Cauchemare/Truncated_FAMD) for an alternative of sparse and big data.
 
@@ -294,12 +279,6 @@ print(famd.fit_transform(X))
 
 ```
 
-
-
-
-## Going faster
-
-By default `light_famd` uses `sklearn`'s randomized SVD implementation. One of the goals of `Light_FAMD` is to make it possible to use a different SVD backend. For the while the only other supported backend is [Facebook's randomized SVD implementation](https://research.facebook.com/blog/fast-randomized-svd/) called [fbpca](http://fbpca.readthedocs.org/en/latest/). You can use it by setting the `engine` parameter to `'fbpca'` or see [Truncated_FAMD](https://github.com/Cauchemare/Truncated_FAMD) for an alternative of automatic selection of svd_solver depends on the structure of input:
 
 ```python
 >>> import Light_FAMD
