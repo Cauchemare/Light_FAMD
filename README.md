@@ -282,12 +282,6 @@ print(famd.fit_transform(X))
  [ 4.42018651 -0.77402381]
  [ 3.66615694  4.15701604]]
 
-```
-
-
-```python
->>> import Light_FAMD
->>> pca = Light_FAMD.PCA(engine='fbpca')
 
 ```
 
