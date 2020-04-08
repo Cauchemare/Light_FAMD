@@ -2,6 +2,10 @@
 # Light_FAMD
 REFERENCE TO PROJECT:[prince](https://github.com/MaxHalford/prince)
 
+THE MAIN DIFFERENCES  AS SHOW BELOW:
+1. LIGHTER: REMOVE REPETITIVE CALCAULATION,ACCELERATING MAIN CALCULATION.
+2. MORE STANDARD:  EACH ALGORITHM IMPLEMENTS  fit,transform,fit_transform METHODS FOLLOWING THE MAIN STRUCTURE of scikit-learn API
+
 `Light_FAMD` is a library for prcessing [factor analysis of mixed data](https://www.wikiwand.com/en/Factor_analysis). This includes a variety of methods including [principal component analysis (PCA)](https://www.wikiwand.com/en/Principal_component_analysis) and [multiply correspondence analysis (MCA)](https://www.researchgate.net/publication/239542271_Multiple_Correspondence_Analysis). The goal is to provide an efficient and light implementation for each algorithm along with a scikit-learn API.
 
 ## Table of contents
