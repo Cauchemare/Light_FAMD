@@ -22,9 +22,9 @@ class OneHotEncoder(preprocessing.OneHotEncoder):
         return self
 
     def transform(self, X):
-        return pd.SparseDataFrame(
-            data=super().transform(X),
+        return pd.DataFrame(
             columns=self.column_names_,
+            data=super().transform(X),
             index=X.index if isinstance(X, pd.DataFrame) else None,
             default_fill_value=0
         )
