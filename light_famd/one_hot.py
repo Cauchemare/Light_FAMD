@@ -12,7 +12,7 @@ from sklearn import preprocessing
 class OneHotEncoder(preprocessing.OneHotEncoder):
 
     def __init__(self):
-        super().__init__(sparse=True, dtype=np.uint8,handle_unknown='ignore')
+        super().__init__(sparse=False, dtype=np.uint8,handle_unknown='ignore')
 
     def fit(self, X, y=None):
 
