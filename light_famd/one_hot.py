@@ -22,7 +22,6 @@ class OneHotEncoder(preprocessing.OneHotEncoder):
         return self
 
     def transform(self, X):
-        print(self.column_names_)
         return pd.DataFrame(
             columns=self.column_names_,
             data=super().transform(X)
