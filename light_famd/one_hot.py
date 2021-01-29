@@ -25,6 +25,5 @@ class OneHotEncoder(preprocessing.OneHotEncoder):
         return pd.DataFrame(
             columns=self.column_names_,
             data=super().transform(X),
-            index=X.index if isinstance(X, pd.DataFrame) else None,
-            default_fill_value=0
+            index=X.index if isinstance(X, pd.DataFrame) else None
         )
