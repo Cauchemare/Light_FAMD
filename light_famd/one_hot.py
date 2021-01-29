@@ -24,6 +24,5 @@ class OneHotEncoder(preprocessing.OneHotEncoder):
     def transform(self, X):
         return pd.DataFrame(
             columns=self.column_names_,
-            data=super().transform(X),
-            index=X.index if isinstance(X, pd.DataFrame) else None
+            data=super().transform(X)
         )
