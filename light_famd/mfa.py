@@ -102,7 +102,7 @@ class MFA(pca.PCA):
 
             if self.partial_factor_analysis_[name].__class__.__name__ == 'MCA':
                 check_is_fitted(self.partial_factor_analysis_[name],'_usecols')
-                X_partial = self.partial_factor_analysis_[name].one_hot_.transform(X_partial).loc[:, self.partial_factor_analysis_[name]._usecols].to_dense()
+                X_partial = self.partial_factor_analysis_[name].one_hot_.transform(X_partial).loc[:, self.partial_factor_analysis_[name]._usecols]
             
             X_partials.append(X_partial / self.partial_factor_analysis_[name].singular_values_[0])
 

@@ -12,7 +12,7 @@ from sklearn import preprocessing
 class OneHotEncoder(preprocessing.OneHotEncoder):
 
     def __init__(self):
-        super().__init__(sparse=True, dtype=np.uint8,handle_unknown='ignore')
+        super().__init__(sparse=False, dtype=np.uint8,handle_unknown='ignore')
 
     def fit(self, X, y=None):
 
@@ -22,9 +22,7 @@ class OneHotEncoder(preprocessing.OneHotEncoder):
         return self
 
     def transform(self, X):
-        return pd.SparseDataFrame(
-            data=super().transform(X),
+        return pd.DataFrame(
             columns=self.column_names_,
-            index=X.index if isinstance(X, pd.DataFrame) else None,
-            default_fill_value=0
+            data=super().transform(X)
         )
